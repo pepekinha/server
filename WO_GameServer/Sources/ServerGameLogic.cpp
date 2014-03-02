@@ -563,17 +563,9 @@ void ServerGameLogic::DoKillPlayer(GameObject* sourceObj, obj_ServerPlayer* targ
 	}
 	//MENSAGEM DE KILL PLAYER /*wpn->getConfig()->m_StoreName*/
 	{
-	//wiCharDataFull& wpn = ServerWeapon::m_Owner;
-	//const WeaponConfig* wpn = g_pWeaponArmory->getWeaponConfig(itemID);
-	//char weaponanme = wpn->m_StoreName;	
-	//char weaponname = g_pWeaponArmory->getWeaponConfig(plr->m_SelectedWeapon)->m_StoreName;
 	obj_ServerPlayer * plr = ((obj_ServerPlayer*)sourceObj);
-	uint32_t itemID = plr->m_SelectedWeapon;
-	const WeaponConfig* wpn = g_pWeaponArmory->getWeaponConfig(itemID);
-	const char *weaponname = "wpn->m_StoreNameW";
-		
 	char message[64] = {0};
-	sprintf(message, "%s killed by %s with: %d\n", targetPlr->userName, sourceObj->Name.c_str(), weaponname);
+	sprintf(message, "%s killed by %s with: %d\n", targetPlr->userName, sourceObj->Name.c_str());
 	PKT_C2C_ChatMessage_s n2;
     n2.userFlag = 0;
     n2.msgChannel = 1;
