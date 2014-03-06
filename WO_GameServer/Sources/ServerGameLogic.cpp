@@ -565,7 +565,7 @@ void ServerGameLogic::DoKillPlayer(GameObject* sourceObj, obj_ServerPlayer* targ
 	{
 	obj_ServerPlayer * plr = ((obj_ServerPlayer*)sourceObj);
 	char message[64] = {0};
-	sprintf(message, "%s killed by %s with: %d\n", targetPlr->userName, sourceObj->Name.c_str());
+	sprintf(message, "%s killed by %s ", targetPlr->userName, sourceObj->Name.c_str());
 	PKT_C2C_ChatMessage_s n2;
     n2.userFlag = 0;
     n2.msgChannel = 1;
@@ -590,22 +590,8 @@ void ServerGameLogic::DoKillPlayer(GameObject* sourceObj, obj_ServerPlayer* targ
 	if(forced_by_server)
 		return;
 	
-	//Perde Reputação quando morre na arena
-	/*if (targetPlr->loadout_->GameMapId == GBGameInfo::MAPID_WZ_ViruZ_pvp)
-	{
-		targetPlr->loadout_->Stats.Reputation -= 2;
-		PKT_S2C_SetPlayerReputation_s n;
-		n.Reputation = targetPlr->loadout_->Stats.Reputation;
-		p2pBroadcastToActive(targetPlr, &n, sizeof(n));
-	}*/
-
 	targetPlr->loadout_->Stats.Deaths++;
 	
-	// Perde kills na arena
-	if (targetPlr->loadout_->GameMapId == GBGameInfo::MAPID_WZ_ViruZ_pvp)
-	{
-		targetPlr->loadout_->Stats.Kills--;// Tira kill quando morre!
-	}
 	//AddPlayerReward(targetPlr, RWD_Death, "RWD_Death"); //add rewar no player que morre.
 	
 
@@ -924,7 +910,7 @@ bool ServerGameLogic::ApplyDamageToPlayer(GameObject* fromObj, obj_ServerPlayer*
 	if(IsServerPlayer(fromObj))
 	{
 		obj_ServerPlayer * fromPlr = ((obj_ServerPlayer*)fromObj);
-		if(fromPlr->loadout_->GroupID == targetPlr->loadout_->GroupID && targetPlr->loadout_->GroupID != 0 && fromObj->isObjType(OBJTYPE_Human))
+		if(fromPlr->loadout_->GroupID == targetPlr->loadout_->GroupID && targetPlr->loadout_->GroupID != 0)
 		{
 			return false;
 		}
@@ -934,7 +920,7 @@ bool ServerGameLogic::ApplyDamageToPlayer(GameObject* fromObj, obj_ServerPlayer*
 	if(IsServerPlayer(fromObj))
 	{
 		obj_ServerPlayer * fromPlr = ((obj_ServerPlayer*)fromObj);
-		if(fromPlr->loadout_->ClanID  == targetPlr->loadout_->ClanID && targetPlr->loadout_->ClanID != 0 && fromObj->isObjType(OBJTYPE_Human))
+		if(fromPlr->loadout_->ClanID  == targetPlr->loadout_->ClanID && targetPlr->loadout_->ClanID != 0)
 		{
 			return false;
 		}
