@@ -1719,6 +1719,8 @@ void obj_ServerPlayer::OnNetPacket(const PKT_C2C_PlayerReload_s& n)
 		wi.Reset();
 		
 	// drop current ammo clip (if have clip speficied and have ammo)
+ if(loadout_->GameMapId != GBGameInfo::MAPID_WZ_ViruZ_pvp)
+ {
 	if(wpn->getPlayerItem().Var1 > 0 && wpn->getPlayerItem().Var2 > 0)
 	{
 		obj_DroppedItem* obj = (obj_DroppedItem*)srv_CreateGameObject("obj_DroppedItem", "obj_DroppedItem", GetRandomPosForItemDrop());
@@ -1729,6 +1731,7 @@ void obj_ServerPlayer::OnNetPacket(const PKT_C2C_PlayerReload_s& n)
 		obj->m_Item.quantity = 1;
 		obj->m_Item.Var1     = wpn->getPlayerItem().Var1;
 	}
+ } //NoDrop Clip in PvP map.
 
 	// reload weapon
 	wpn->getPlayerItem().Var1 = ammoReloaded;
